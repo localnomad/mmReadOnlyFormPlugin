@@ -191,16 +191,19 @@ class mmReadOnlyBaseForm extends sfFormSymfony
    * If no widget names are passed, all form is made readonly
    *
    * @param array $fields The widget name
-   *
+   * @param array $except_of If we need to readonly all except of ...
    * @return void
   **/
-  public function setReadOnly(array $fields = array())
+  public function setReadOnly(array $fields = array(),$except_of = array())
   {
     if(count($fields) == 0) //use all form fields
     {
       foreach($this->widgetSchema->getFields() as $fieldName => $w)
       {
-        $this->_handleReadOnlyFields($fieldName);
+        if(!in_array($fieldName,$except_of))
+        {
+          $this->_handleReadOnlyFields($fieldName);
+        }
       }
     }
 
